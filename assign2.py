@@ -16,7 +16,15 @@ class QueueLL:
         """ override Python str function/method to facilitate printing of the entire queue,
         this should print the contents of the queue with front of the queue on left,
         and back of the queue on the right """
-        return self.queue.__str__()
+        current = self.queue.head
+        output = "["
+        while current != None:
+            output = "".join((output, "'" + str(current.getData()) + "',"))
+            current = current.getNext()
+        if len(output) > 1:
+            output = output[:-1]
+        output = "".join((output, "]"))
+        return output
 
     def isEmpty(self):
         """ return True if the queue has zero items, and False if has one or more items """
@@ -164,7 +172,7 @@ if __name__ == '__main__':
     ts = TrafficSimulatorQueue()
 
     # set probability that a car arrives on any given second (i.e. loop # iteration) to 50%
-    ts.setProbabilityArrival(0.8)
+    ts.setProbabilityArrival(0.5)
 
     # set the light to be red for 2 minutes (needs to be converted to seconds inside)
     ts.setMinutesRed(1)
