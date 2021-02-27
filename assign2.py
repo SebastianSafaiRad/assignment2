@@ -122,7 +122,7 @@ class TrafficSimulatorQueue(QueueLL):
         print("Traffic light is red, current queue size = " + str(self.size()))
 
         i = number_redgreen_cycles * (self.time_steps_light_is_green + self.time_steps_light_is_red)
-        i_light = number_redgreen_cycles * self.time_steps_light_is_red
+        i_light = self.time_steps_light_is_red
 
         while i > 0:
             # cars can arrive regardless of whether the light is red or green
@@ -135,6 +135,7 @@ class TrafficSimulatorQueue(QueueLL):
                 i_light -= 1
                 if i_light == 0:
                     self.traffic_light_state = "green"
+                    i_light = self.time_steps_light_is_green
                     print("Traffic light changing to green, current queue size = " + str(self.size()) + ", queue:")
                     print(" " * 2, self)
 
@@ -144,10 +145,14 @@ class TrafficSimulatorQueue(QueueLL):
             else:
                 i_light -= 1
                 if i % self.time_steps_needed_for_1_car_to_exit == 0:
-                    car_leaving = Node(self.deQueue()).getData()
-                    print(" " * 4, "car,", car_leaving, ", exiting intersection")
+                    if self.queue.size() > 0:
+                        car_leaving = Node(self.deQueue()).getData()
+                        print(" " * 4, "car,", car_leaving, ", exiting intersection")
+                    else:
+                        print("No cars waiting")
                 if i_light == 0:
                     self.traffic_light_state = "red"
+                    i_light = self.time_steps_light_is_red
                     i_light = number_redgreen_cycles * self.time_steps_light_is_red
                     print("Traffic light changing to red, current queue size = " + str(self.size()) + ", queue:")
                     print(" " * 2, self)
@@ -159,7 +164,7 @@ if __name__ == '__main__':
     ts = TrafficSimulatorQueue()
 
     # set probability that a car arrives on any given second (i.e. loop # iteration) to 50%
-    ts.setProbabilityArrival(0.5)
+    ts.setProbabilityArrival(0.8)
 
     # set the light to be red for 2 minutes (needs to be converted to seconds inside)
     ts.setMinutesRed(1)
