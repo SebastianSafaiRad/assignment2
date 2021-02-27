@@ -9,7 +9,7 @@ class QueueLL:
     """ Implements a Linked List """
 
     def __init__(self):
-        """ Create the one field/attribute needed for our QueueLL class """
+        """ Constructor for QueueLL class """
         self.queue = UnorderedList()
 
     def __str__(self):
@@ -98,7 +98,7 @@ class TrafficSimulatorQueue(QueueLL):
     """
 
     def __init__(self):
-
+        """Constructor for TrafficSimulatorQueue Class"""
         super(TrafficSimulatorQueue, self).__init__()
         self.traffic_light_state = "red"
         self.time_steps_needed_for_1_car_to_exit = 1
@@ -107,12 +107,15 @@ class TrafficSimulatorQueue(QueueLL):
         self.time_steps_light_is_green = 1
 
     def setProbabilityArrival(self, prob_arrival):
+        """Mutator method for setting the probabililty of arrival"""
         self.prob_arrival = prob_arrival
 
     def setMinutesRed(self, min_red):
+        "Mutator method for setting the amount of time steps for a red light"
         self.time_steps_light_is_red = min_red * 60
 
     def setMinutesGreen(self, min_green):
+        "Mutator method for setting amount of time steps for a green light"
         self.time_steps_light_is_green = min_green * 60
 
     def checkForArrivingAuto(self):
